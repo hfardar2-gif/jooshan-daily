@@ -167,20 +167,24 @@ els.largeText.addEventListener("change", () => {
   localStorage.setItem(LARGE_TEXT_KEY, String(els.largeText.checked));
 });
 
-fetch("./jooshan.md")
-  .then(response => {
-    if (!response.ok) throw new Error("content");
-    return response.text();
-  })
-  .then(markdown => {
-    prayers = parsePrayer(markdown);
+async function loadPrayers() {
+  try {
+    if (Array.isArray(window.JOOSHAN_PRAYERS)) {
+      prayers = window.JOOSHAN_PRAYERS;
+    } else {
+      const response = await fetch("./jooshan.md");
+      if (!response.ok) throw new Error("content");
+      prayers = parsePrayer(await response.text());
+    }
     if (prayers.length !== 100) throw new Error(`Expected 100 sections, found ${prayers.length}`);
     els.done.disabled = false;
     render();
-  })
-  .catch(() => {
+  } catch {
     els.arabic.textContent = "متن دعا در دسترس نیست";
-    els.translation.textContent = "لطفاً برنامه را یک‌بار با اینترنت باز کنید.";
-  });
+    els.translation.textContent = "لطفاً برنامه را به آخرین نسخه به‌روزرسانی کنید.";
+  }
+}
+
+loadPrayers();
 
 if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));

@@ -18,7 +18,12 @@ jobs:
       - name: Build APK
         working-directory: android
         run: gradle assembleDebug
+      - name: Verify packaged content
+        run: |
+          unzip -p android/app/build/outputs/apk/debug/app-debug.apk assets/index.html | grep -q "صد روز با جوشن کبیر"
+          unzip -p android/app/build/outputs/apk/debug/app-debug.apk assets/index.html | grep -q "نسخه ۱.۱.۱"
+          unzip -p android/app/build/outputs/apk/debug/app-debug.apk assets/prayers.js | grep -q "window.JOOSHAN_PRAYERS"
       - uses: actions/upload-artifact@v4
         with:
-          name: jooshan-daily-apk
+          name: jooshan-kabir-v1.1.1-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
