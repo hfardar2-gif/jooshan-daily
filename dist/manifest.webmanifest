@@ -1,0 +1,16 @@
+{
+  "name": "صد روز با جوشن",
+  "short_name": "جوشن",
+  "description": "هر روز یک بند از دعای جوشن کبیر با ترجمه فارسی",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#061522",
+  "theme_color": "#071b2d",
+  "icons": [
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
