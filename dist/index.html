@@ -71,11 +71,11 @@
         <span><b>متن درشت‌تر</b><small>برای خواندن راحت‌تر متن دعا</small></span>
         <input type="checkbox" id="largeTextToggle">
       </label>
-      <label class="setting-row native-only" id="reminderSetting">
-        <span><b>یادآوری روزانه</b><small>هر روز در ساعت انتخاب‌شده</small></span>
+      <label class="setting-row" id="reminderSetting">
+        <span><b>یادآوری روزانه</b><small id="reminderDescription">هر روز در ساعت انتخاب‌شده</small></span>
         <input type="checkbox" id="reminderToggle">
       </label>
-      <label class="setting-row native-only" id="reminderTimeRow">
+      <label class="setting-row" id="reminderTimeRow">
         <span><b>ساعت یادآوری</b><small>پیش‌فرض: ۹ صبح</small></span>
         <input type="time" id="reminderTime" value="09:00" aria-label="ساعت یادآوری">
       </label>
@@ -94,6 +94,7 @@
   </dialog>
 
   <div class="celebration" id="celebration" aria-hidden="true"></div>
+  <script src="./push-config.js" defer></script>
   <script src="./prayers.js" defer></script>
   <script src="./app.js" defer></script>
 </body>

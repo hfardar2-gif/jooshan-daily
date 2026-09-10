@@ -20,6 +20,7 @@ const els = {
   reminderToggle: document.querySelector("#reminderToggle"),
   reminderTime: document.querySelector("#reminderTime"),
   reminderTimeRow: document.querySelector("#reminderTimeRow"),
+  reminderDescription: document.querySelector("#reminderDescription"),
   celebration: document.querySelector("#celebration")
 };
 
@@ -158,6 +159,89 @@ if (window.AndroidBridge) {
   });
   els.reminderTime.addEventListener("change", () => {
     if (els.reminderToggle.checked) window.AndroidBridge.enableDailyReminder(els.reminderTime.value);
+  });
+} else {
+  const WEB_REMINDER_KEY = "jooshan-web-reminder-v1";
+  const savedReminder = JSON.parse(localStorage.getItem(WEB_REMINDER_KEY) || "null");
+  els.reminderToggle.checked = Boolean(savedReminder?.enabled);
+  els.reminderTime.value = savedReminder?.time || "09:00";
+  els.reminderTimeRow.classList.toggle("disabled", !els.reminderToggle.checked);
+
+  const base64ToUint8Array = value => {
+    const padding = "=".repeat((4 - value.length % 4) % 4);
+    const raw = atob((value + padding).replace(/-/g, "+").replace(/_/g, "/"));
+    return Uint8Array.from([...raw].map(char => char.charCodeAt(0)));
+  };
+
+  async function enableWebReminder() {
+    if (!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) {
+      throw new Error("unsupported");
+    }
+    const permission = await Notification.requestPermission();
+    if (permission !== "granted") throw new Error("permission");
+    const registration = await navigator.serviceWorker.ready;
+    const keyResponse = await fetch(`${window.PUSH_API_URL}/vapid-public-key`);
+    if (!keyResponse.ok) throw new Error("server");
+    const { publicKey } = await keyResponse.json();
+    let subscription = await registration.pushManager.getSubscription();
+    if (!subscription) {
+      subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: base64ToUint8Array(publicKey)
+      });
+    }
+    const [hour, minute] = els.reminderTime.value.split(":").map(Number);
+    const response = await fetch(`${window.PUSH_API_URL}/subscriptions`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        subscription: subscription.toJSON(),
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        hour,
+        minute
+      })
+    });
+    if (!response.ok) throw new Error("server");
+    localStorage.setItem(WEB_REMINDER_KEY, JSON.stringify({ enabled: true, time: els.reminderTime.value }));
+    els.reminderDescription.textContent = "اعلان روزانه فعال است";
+  }
+
+  async function disableWebReminder() {
+    const registration = await navigator.serviceWorker.ready;
+    const subscription = await registration.pushManager.getSubscription();
+    if (subscription) {
+      await fetch(`${window.PUSH_API_URL}/subscriptions`, {
+        method: "DELETE",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ endpoint: subscription.endpoint })
+      });
+      await subscription.unsubscribe();
+    }
+    localStorage.setItem(WEB_REMINDER_KEY, JSON.stringify({ enabled: false, time: els.reminderTime.value }));
+    els.reminderDescription.textContent = "هر روز در ساعت انتخاب‌شده";
+  }
+
+  els.reminderToggle.addEventListener("change", async () => {
+    els.reminderToggle.disabled = true;
+    try {
+      if (els.reminderToggle.checked) await enableWebReminder();
+      else await disableWebReminder();
+    } catch (error) {
+      els.reminderToggle.checked = false;
+      els.reminderDescription.textContent = error.message === "permission"
+        ? "اجازهٔ اعلان در مرورگر داده نشد"
+        : error.message === "unsupported" ? "این مرورگر از اعلان PWA پشتیبانی نمی‌کند" : "سرویس اعلان هنوز آماده نیست";
+    } finally {
+      els.reminderToggle.disabled = false;
+      els.reminderTimeRow.classList.toggle("disabled", !els.reminderToggle.checked);
+    }
+  });
+
+  els.reminderTime.addEventListener("change", async () => {
+    if (els.reminderToggle.checked) {
+      try { await enableWebReminder(); }
+      catch { els.reminderDescription.textContent = "ثبت ساعت جدید انجام نشد"; }
+    }
   });
 }
 els.largeText.checked = localStorage.getItem(LARGE_TEXT_KEY) === "true";

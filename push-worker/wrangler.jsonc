@@ -4,16 +4,5 @@
   "main": "src/index.js",
   "compatibility_date": "2026-09-01",
   "compatibility_flags": ["nodejs_compat"],
-  "triggers": { "crons": ["*/5 * * * *"] },
-  "vars": {
-    "APP_ORIGIN": "https://YOUR-PWA-DOMAIN",
-    "VAPID_SUBJECT": "mailto:YOUR-EMAIL"
-  },
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "jooshan-push-db",
-      "database_id": "PASTE-D1-DATABASE-ID"
-    }
-  ]
+  "triggers": { "crons": ["*/5 * * * *"] }
 }
