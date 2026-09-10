@@ -1,0 +1,20 @@
+plugins { id "com.android.application" }
+
+android {
+    namespace "ir.jooshan.daily"
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "ir.jooshan.daily"
+        minSdk 24
+        targetSdk 35
+        versionCode 1
+        versionName "1.0.0"
+    }
+}
+
+tasks.register("syncWebAssets", Copy) {
+    from(rootProject.file("../dist"))
+    into(project.file("src/main/assets"))
+}
+preBuild.dependsOn(syncWebAssets)

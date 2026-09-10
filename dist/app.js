@@ -17,6 +17,9 @@ const els = {
   largeText: document.querySelector("#largeTextToggle"),
   settingsProgress: document.querySelector("#settingsProgress"),
   settingsBadge: document.querySelector("#settingsBadge"),
+  reminderToggle: document.querySelector("#reminderToggle"),
+  reminderTime: document.querySelector("#reminderTime"),
+  reminderTimeRow: document.querySelector("#reminderTimeRow"),
   celebration: document.querySelector("#celebration")
 };
 
@@ -116,6 +119,21 @@ els.done.addEventListener("click", () => {
 });
 
 document.querySelector("#settingsButton").addEventListener("click", () => els.dialog.showModal());
+if (window.AndroidBridge) {
+  document.body.classList.add("native-app");
+  const reminder = JSON.parse(window.AndroidBridge.getReminderSettings());
+  els.reminderToggle.checked = reminder.enabled;
+  els.reminderTime.value = reminder.time || "09:00";
+  els.reminderTimeRow.classList.toggle("disabled", !reminder.enabled);
+  els.reminderToggle.addEventListener("change", () => {
+    els.reminderTimeRow.classList.toggle("disabled", !els.reminderToggle.checked);
+    if (els.reminderToggle.checked) window.AndroidBridge.enableDailyReminder(els.reminderTime.value);
+    else window.AndroidBridge.disableDailyReminder();
+  });
+  els.reminderTime.addEventListener("change", () => {
+    if (els.reminderToggle.checked) window.AndroidBridge.enableDailyReminder(els.reminderTime.value);
+  });
+}
 els.largeText.checked = localStorage.getItem(LARGE_TEXT_KEY) === "true";
 document.body.classList.toggle("large-text", els.largeText.checked);
 els.largeText.addEventListener("change", () => {
