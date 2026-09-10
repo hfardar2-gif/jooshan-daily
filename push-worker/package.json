@@ -1,0 +1,16 @@
+{
+  "name": "jooshan-push-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "db:init": "wrangler d1 execute jooshan-push-db --remote --file=./schema.sql",
+    "keys": "web-push generate-vapid-keys --json"
+  },
+  "dependencies": {
+    "web-push": "3.6.7"
+  },
+  "devDependencies": {
+    "wrangler": "4.35.0"
+  }
+}
