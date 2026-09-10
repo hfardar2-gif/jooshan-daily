@@ -4,11 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#071b2d">
-  <meta name="description" content="هر روز یک بند از دعای جوشن کبیر با ترجمه فارسی">
+  <meta name="description" content="صد روز با جوشن کبیر؛ هر روز یک بند همراه با ترجمه فارسی">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="جوشن کبیر">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./styles.css">
-  <title>صد روز با جوشن</title>
+  <title>صد روز با جوشن کبیر</title>
 </head>
 <body>
   <div class="ambient ambient-one"></div>
@@ -18,7 +21,7 @@
     <header class="topbar">
       <div>
         <p class="eyebrow">ذکر روزانه</p>
-        <h1>صد روز با جوشن</h1>
+        <h1>صد روز با جوشن کبیر</h1>
       </div>
       <button class="icon-button" id="settingsButton" aria-label="تنظیمات">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm8 3.5-.1-1.1 1.7-1.3-2-3.4-2 .8a8 8 0 0 0-1.9-1.1L15.4 4h-4l-.3 1.9A8 8 0 0 0 9 7L7.1 6.2l-2 3.4 1.6 1.3a8 8 0 0 0 0 2.2L5.1 14.4l2 3.4L9 17a8 8 0 0 0 2 1.1l.3 1.9h4l.4-1.9a8 8 0 0 0 2-1.1l1.8.8 2-3.4-1.6-1.3L20 12Z"/></svg>
@@ -80,7 +83,13 @@
         <span><b>پیشرفت شما</b><small id="settingsProgress">۰ بند خوانده شده</small></span>
         <span class="mini-badge" id="settingsBadge">۰/۱۰۰</span>
       </div>
-      <button type="button" class="reset-button" id="resetButton">شروع دوبارهٔ دوره</button>
+      <button type="button" class="install-button web-install-only" id="installButton">نصب برنامه روی گوشی</button>
+      <p class="install-hint web-install-only" id="installHint"></p>
+      <div class="about-app">
+        <p><span>طراح برنامه</span><b>حمید رضا ف</b></p>
+        <p class="dedication">هدیه برای روح همهٔ رفتگان</p>
+        <small>نسخه ۱.۱.۰</small>
+      </div>
     </form>
   </dialog>
 

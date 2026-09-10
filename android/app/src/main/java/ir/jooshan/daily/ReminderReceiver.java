@@ -18,7 +18,7 @@ public class ReminderReceiver extends BroadcastReceiver {
             ? new Notification.Builder(context, MainActivity.CHANNEL_ID)
             : new Notification.Builder(context);
         Notification notification = builder.setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle("صد روز با جوشن")
+            .setContentTitle("صد روز با جوشن کبیر")
             .setContentText("وقت خواندن بند امروز جوشن کبیر است")
             .setColor(Color.rgb(57, 210, 192)).setAutoCancel(true).setContentIntent(pending).build();
         try { ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(100, notification); }

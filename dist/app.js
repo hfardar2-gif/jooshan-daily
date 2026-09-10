@@ -119,6 +119,32 @@ els.done.addEventListener("click", () => {
 });
 
 document.querySelector("#settingsButton").addEventListener("click", () => els.dialog.showModal());
+let installPrompt = null;
+const installButton = document.querySelector("#installButton");
+const installHint = document.querySelector("#installHint");
+window.addEventListener("beforeinstallprompt", event => {
+  event.preventDefault();
+  installPrompt = event;
+  installButton.textContent = "نصب برنامه روی گوشی";
+});
+window.addEventListener("appinstalled", () => {
+  installPrompt = null;
+  installButton.textContent = "برنامه نصب شد";
+  installButton.disabled = true;
+  installHint.textContent = "";
+});
+installButton.addEventListener("click", async () => {
+  if (installPrompt) {
+    installPrompt.prompt();
+    await installPrompt.userChoice;
+    installPrompt = null;
+    return;
+  }
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  installHint.textContent = isIOS
+    ? "در Safari دکمهٔ اشتراک‌گذاری را بزنید و «Add to Home Screen» را انتخاب کنید."
+    : "از منوی مرورگر گزینهٔ «Install app» یا «Add to Home screen» را انتخاب کنید.";
+});
 if (window.AndroidBridge) {
   document.body.classList.add("native-app");
   const reminder = JSON.parse(window.AndroidBridge.getReminderSettings());
@@ -135,16 +161,10 @@ if (window.AndroidBridge) {
   });
 }
 els.largeText.checked = localStorage.getItem(LARGE_TEXT_KEY) === "true";
-document.body.classList.toggle("large-text", els.largeText.checked);
+document.documentElement.classList.toggle("large-text", els.largeText.checked);
 els.largeText.addEventListener("change", () => {
-  document.body.classList.toggle("large-text", els.largeText.checked);
+  document.documentElement.classList.toggle("large-text", els.largeText.checked);
   localStorage.setItem(LARGE_TEXT_KEY, String(els.largeText.checked));
-});
-document.querySelector("#resetButton").addEventListener("click", () => {
-  if (!confirm("پیشرفت دوره پاک شود و از بند اول شروع کنید؟")) return;
-  localStorage.removeItem(STORAGE_KEY);
-  els.dialog.close();
-  render();
 });
 
 fetch("./jooshan.md")

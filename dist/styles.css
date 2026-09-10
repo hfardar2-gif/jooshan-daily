@@ -148,10 +148,25 @@ dialog::backdrop { background: rgba(0,7,12,.7); backdrop-filter: blur(5px); }
 .native-app .native-only { display: flex; }
 .native-app #reminderTimeRow.disabled { opacity: .45; pointer-events: none; }
 .mini-badge { direction: ltr; color: var(--turquoise); font-size: .85rem; }
-.reset-button { width: 100%; margin-top: 18px; padding: 13px; border-radius: 14px; border: 1px solid rgba(255,125,125,.2); background: rgba(255,110,110,.07); color: #ffb0b0; font: inherit; }
+.install-button {
+  width: 100%; margin-top: 18px; padding: 14px; border-radius: 14px;
+  border: 1px solid rgba(57,210,192,.3); background: rgba(57,210,192,.1);
+  color: var(--turquoise); font: inherit; font-weight: 700;
+}
+.install-hint { margin: 10px 4px 0; color: var(--muted); font-size: .78rem; line-height: 1.8; text-align: center; }
+.about-app {
+  margin-top: 20px; padding: 15px; border-radius: 16px; text-align: center;
+  background: rgba(255,255,255,.035); border: 1px solid var(--line);
+}
+.about-app p { margin: 0; }
+.about-app p:first-child { display: flex; justify-content: center; gap: 7px; color: var(--muted); font-size: .82rem; }
+.about-app b { color: var(--ink); }
+.about-app .dedication { margin-top: 12px; color: var(--gold); font-size: .88rem; }
+.about-app small { display: block; margin-top: 9px; color: #718790; direction: rtl; }
+.native-app .web-install-only { display: none; }
 
-.large-text .arabic { font-size: 1.85rem; }
-.large-text .translation { font-size: 1.15rem; }
+.large-text .arabic { font-size: 2.15rem; line-height: 2.15; }
+.large-text .translation { font-size: 1.3rem; line-height: 2.15; }
 .celebration { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
 .spark { position: absolute; width: 6px; height: 13px; border-radius: 2px; animation: fall 1.2s ease-out forwards; }
 @keyframes fall { from { transform: translateY(-10vh) rotate(0); opacity: 1; } to { transform: translateY(90vh) rotate(280deg); opacity: 0; } }

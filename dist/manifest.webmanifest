@@ -1,15 +1,18 @@
 {
-  "name": "صد روز با جوشن",
-  "short_name": "جوشن",
-  "description": "هر روز یک بند از دعای جوشن کبیر با ترجمه فارسی",
+  "name": "صد روز با جوشن کبیر",
+  "short_name": "جوشن کبیر",
+  "description": "صد روز با جوشن کبیر؛ هر روز یک بند همراه با ترجمه فارسی",
+  "id": "jooshan-kabir-100-days",
   "lang": "fa",
   "dir": "rtl",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
   "orientation": "portrait",
   "background_color": "#061522",
   "theme_color": "#071b2d",
+  "categories": ["lifestyle", "books"],
   "icons": [
     { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
   ]
