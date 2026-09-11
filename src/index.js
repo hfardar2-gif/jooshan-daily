@@ -1,4 +1,4 @@
-import webpush from "web-push";
+import { buildPushPayload } from "@block65/webcrypto-web-push";
 
 const json = (value, status = 200, extra = {}) => new Response(JSON.stringify(value), {
   status,
@@ -42,7 +42,11 @@ function localParts(now, timeZone) {
 }
 
 async function sendDueReminders(env) {
-  webpush.setVapidDetails(env.VAPID_SUBJECT, env.VAPID_PUBLIC_KEY, env.VAPID_PRIVATE_KEY);
+  const vapid = {
+    subject: env.VAPID_SUBJECT,
+    publicKey: env.VAPID_PUBLIC_KEY,
+    privateKey: env.VAPID_PRIVATE_KEY
+  };
   const { results = [] } = await env.DB.prepare("SELECT * FROM subscriptions WHERE enabled = 1").all();
   const now = new Date();
 
@@ -51,11 +55,14 @@ async function sendDueReminders(env) {
     const due = local.hour === row.hour && local.minute >= row.minute && local.minute < row.minute + 5;
     if (!due || row.last_sent_date === local.date) continue;
     try {
-      await webpush.sendNotification(JSON.parse(row.subscription), JSON.stringify({
+      const subscription = JSON.parse(row.subscription);
+      const payload = await buildPushPayload({ data: JSON.stringify({
         title: "صد روز با جوشن کبیر",
         body: "وقت خواندن بند امروز جوشن کبیر است.",
         url: env.APP_ORIGIN
-      }), { TTL: 3600 });
+      }), options: { ttl: 3600 } }, subscription, vapid);
+      const response = await fetch(subscription.endpoint, payload);
+      if (!response.ok) throw Object.assign(new Error(`Push returned ${response.status}`), { statusCode: response.status });
       await env.DB.prepare("UPDATE subscriptions SET last_sent_date = ? WHERE endpoint = ?")
         .bind(local.date, row.endpoint).run();
     } catch (error) {
