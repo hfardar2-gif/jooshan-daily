@@ -120,6 +120,16 @@ els.done.addEventListener("click", () => {
 });
 
 document.querySelector("#settingsButton").addEventListener("click", () => els.dialog.showModal());
+const guideDialog = document.querySelector("#guideDialog");
+const openGuide = event => {
+  event?.preventDefault();
+  guideDialog.showModal();
+  history.replaceState(null, "", "#installation-guide");
+};
+document.querySelector("#guideButton").addEventListener("click", openGuide);
+document.querySelector("#guideLink").addEventListener("click", openGuide);
+guideDialog.addEventListener("close", () => history.replaceState(null, "", location.pathname + location.search));
+if (location.hash === "#installation-guide") openGuide();
 let installPrompt = null;
 const installButton = document.querySelector("#installButton");
 const installHint = document.querySelector("#installHint");

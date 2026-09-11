@@ -54,6 +54,8 @@ body::before {
 }
 
 .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+.topbar > div:first-child { min-width: 0; }
+.header-actions { display: flex; gap: 8px; }
 .eyebrow { margin: 0 0 5px; color: var(--turquoise); font-size: .8rem; letter-spacing: .05em; }
 h1 { margin: 0; font-size: 1.55rem; font-weight: 800; }
 
@@ -62,6 +64,7 @@ h1 { margin: 0; font-size: 1.55rem; font-weight: 800; }
   background: rgba(255,255,255,.055); color: var(--ink); display: grid; place-items: center;
 }
 .icon-button svg { width: 21px; fill: currentColor; opacity: .9; }
+.guide-icon { color: var(--gold); font-size: 1.15rem; font-weight: 900; }
 .icon-button:active { transform: scale(.96); }
 
 .progress-panel {
@@ -126,6 +129,7 @@ h1 { margin: 0; font-size: 1.55rem; font-weight: 800; }
 .done-button.complete { color: #d7eee8; background: rgba(57,210,192,.12); border: 1px solid rgba(57,210,192,.28); box-shadow: none; }
 .checkmark { width: 25px; height: 25px; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid currentColor; }
 .next-note { margin: 11px 0 0; text-align: center; color: #70858d; font-size: .76rem; }
+.guide-link { display: block; width: max-content; margin: 15px auto 0; color: var(--turquoise); font-size: .9rem; font-weight: 700; text-decoration: none; border-bottom: 1px dashed rgba(57,210,192,.5); padding-bottom: 3px; }
 
 dialog { width: min(100% - 24px, 620px); padding: 0; border: 0; color: var(--ink); background: transparent; margin: auto auto 12px; }
 dialog::backdrop { background: rgba(0,7,12,.7); backdrop-filter: blur(5px); }
@@ -164,6 +168,13 @@ dialog::backdrop { background: rgba(0,7,12,.7); backdrop-filter: blur(5px); }
 .about-app .dedication { margin-top: 12px; color: var(--gold); font-size: .88rem; }
 .about-app small { display: block; margin-top: 9px; color: #718790; direction: rtl; }
 .native-app .web-install-only { display: none; }
+.guide-sheet { padding-bottom: 24px; }
+.guide-intro { margin: 0 0 14px; color: var(--muted); font-size: .88rem; line-height: 1.9; }
+.guide-card { display: flex; gap: 13px; align-items: flex-start; margin-top: 10px; padding: 14px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,255,255,.035); }
+.guide-device { flex: 0 0 32px; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; color: #04201f; background: var(--turquoise); font-weight: 900; }
+.guide-card h3 { margin: 2px 0 7px; color: var(--ink); font-size: .95rem; }
+.guide-card p { margin: 0; color: #c9d4d5; font-size: .84rem; line-height: 1.9; }
+.guide-note { margin: 15px 3px 0; color: var(--gold); text-align: center; font-size: .82rem; line-height: 1.8; }
 
 .large-text .arabic { font-size: 2.15rem; line-height: 2.15; }
 .large-text .translation { font-size: 1.3rem; line-height: 2.15; }
@@ -171,4 +182,5 @@ dialog::backdrop { background: rgba(0,7,12,.7); backdrop-filter: blur(5px); }
 .spark { position: absolute; width: 6px; height: 13px; border-radius: 2px; animation: fall 1.2s ease-out forwards; }
 @keyframes fall { from { transform: translateY(-10vh) rotate(0); opacity: 1; } to { transform: translateY(90vh) rotate(280deg); opacity: 0; } }
 @media (min-width: 680px) { .app-shell { padding-top: 38px; } .prayer-card { padding: 30px 38px 34px; } }
+@media (max-width: 390px) { h1 { font-size: 1.28rem; } .icon-button { width: 40px; height: 40px; } .header-actions { gap: 6px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; } }
