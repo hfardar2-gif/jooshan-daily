@@ -175,6 +175,8 @@ dialog::backdrop { background: rgba(0,7,12,.7); backdrop-filter: blur(5px); }
 .guide-card h3 { margin: 2px 0 7px; color: var(--ink); font-size: .95rem; }
 .guide-card p { margin: 0; color: #c9d4d5; font-size: .84rem; line-height: 1.9; }
 .guide-note { margin: 15px 3px 0; color: var(--gold); text-align: center; font-size: .82rem; line-height: 1.8; }
+.guide-contact { margin: 11px 0 0; text-align: center; color: var(--muted); font-size: .82rem; }
+.guide-contact a { color: var(--turquoise); direction: ltr; unicode-bidi: isolate; }
 
 .large-text .arabic { font-size: 2.15rem; line-height: 2.15; }
 .large-text .translation { font-size: 1.3rem; line-height: 2.15; }
