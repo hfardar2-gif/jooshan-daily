@@ -1,5 +1,3 @@
-import { buildPushPayload } from "@block65/webcrypto-web-push";
-
 const json = (value, status = 200, extra = {}) => new Response(JSON.stringify(value), {
   status,
   headers: { "content-type": "application/json; charset=utf-8", ...extra }
@@ -42,6 +40,7 @@ function localParts(now, timeZone) {
 }
 
 async function sendDueReminders(env) {
+  const { buildPushPayload } = await import("@block65/webcrypto-web-push");
   const vapid = {
     subject: env.VAPID_SUBJECT,
     publicKey: env.VAPID_PUBLIC_KEY,
@@ -84,6 +83,9 @@ export default {
     }
 
     const url = new URL(request.url);
+    if (request.method === "GET" && url.pathname === "/") {
+      return json({ ok: true, service: "jooshan-pwa-reminder" }, 200, headers);
+    }
     if (request.method === "GET" && url.pathname === "/vapid-public-key") {
       return json({ publicKey: env.VAPID_PUBLIC_KEY }, 200, headers);
     }
