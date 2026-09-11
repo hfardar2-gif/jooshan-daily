@@ -5,10 +5,10 @@
   "scripts": {
     "deploy": "wrangler deploy",
     "db:init": "wrangler d1 execute jooshan-push-db --remote --file=./schema.sql",
-    "keys": "web-push generate-vapid-keys --json"
+    "keys": "node -e \"const{generateKeyPairSync}=require('crypto');const{privateKey,publicKey}=generateKeyPairSync('ec',{namedCurve:'prime256v1'});const a=publicKey.export({format:'jwk'}),b=privateKey.export({format:'jwk'}),d=s=>Buffer.from(s,'base64url');console.log(JSON.stringify({publicKey:Buffer.concat([Buffer.from([4]),d(a.x),d(a.y)]).toString('base64url'),privateKey:b.d}))\""
   },
   "dependencies": {
-    "web-push": "3.6.7"
+    "@block65/webcrypto-web-push": "2.0.0"
   },
   "devDependencies": {
     "wrangler": "4.35.0"
