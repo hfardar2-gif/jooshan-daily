@@ -1,27 +1,12 @@
-# صد روز با جوشن کبیر
+# PWA reminder worker
 
-یک اپلیکیشن وب پیش‌رونده (PWA) فارسی برای خواندن روزانهٔ ۱۰۰ بند دعای جوشن کبیر همراه با ترجمه.
+This Worker stores Web Push subscriptions in D1 and checks every five minutes
+for reminders due in each device's own IANA timezone.
 
-## امکانات
+Required bindings and secrets:
 
-- نمایش یک بند در هر روز
-- ثبت «خواندم» و نگهداری پیشرفت روی دستگاه
-- نمایش زنجیرهٔ روزهای متوالی
-- حالت متن درشت
-- نصب روی Android از طریق مرورگر
-- کارکرد آفلاین پس از اولین اجرا
-- نسخهٔ اندروید با یادآوری روزانه در ساعت انتخابی
+- D1 binding: `DB`
+- Variables: `APP_ORIGIN`, `VAPID_SUBJECT`
+- Secrets: `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`
 
-## انتشار روی Cloudflare Pages
-
-- Framework preset: **None**
-- Build command: خالی
-- Build output directory: **dist**
-- Root directory: خالی
-
-تمام فایل‌های قابل انتشار در پوشهٔ `dist` قرار دارند.
-
-## دریافت APK
-
-پس از هر تغییر در شاخهٔ `main`، بخش Actions یک APK جدید با نام
-`jooshan-daily-apk` می‌سازد. ساعت پیش‌فرض یادآوری در نسخهٔ اندروید ۰۹:۰۰ است.
+After deployment, copy the Worker URL. It is required by `dist/push-config.js`.
